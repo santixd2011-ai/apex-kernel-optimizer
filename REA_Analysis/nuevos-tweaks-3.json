@@ -1,0 +1,142 @@
+[
+  {
+    "Id": 218,
+    "Category": "PowerThermal",
+    "Title": "Activar plan Ultimate Performance (oculto)",
+    "ShortDescription": "Activa el plan de energía oculto Ultimate Performance: elimina micro-latencias, desactiva estados idle y mantiene USB alimentados.",
+    "TechnicalSummary": "Plan GUID e9a42b02-d5df-448d-aa00-03f14749eb61. Requiere administrador. Respaldado por StateBackupManager.",
+    "RiskLevel": "YELLOW",
+    "WarningMessage": "Aumenta el consumo y la temperatura. Incompatible con el ajuste #219; restaura antes de aplicar otro plan.",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": []
+  },
+  {
+    "Id": 219,
+    "Category": "PowerThermal",
+    "Title": "Activar plan High Performance",
+    "ShortDescription": "Activa el plan de energía High Performance de Windows (GUID clásico).",
+    "TechnicalSummary": "Plan GUID 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c. Confirmado en vivo al abrir NoPing. Requiere administrador.",
+    "RiskLevel": "GREEN",
+    "WarningMessage": "Incompatible con el ajuste #218; restaura antes de aplicar otro plan.",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": []
+  },
+  {
+    "Id": 220,
+    "Category": "PowerThermal",
+    "Title": "EPP: rendimiento máximo (0)",
+    "ShortDescription": "Fija la preferencia de rendimiento energético (EPP) en 0 para que el planificador favorezca frecuencia sobre eficiencia.",
+    "TechnicalSummary": "PERFEPP 36687f9e-e3a5-4dbf-b1dc-15eb381c6863 = 0 (CA/DC). Equivale a 'Energy Performance Preference: Performance' de NoPing.",
+    "RiskLevel": "YELLOW",
+    "WarningMessage": "Consumo y calor mayores. Solo aplicar en equipos con refrigeración adecuada. Mutuamente exclusivo con #221 y #222.",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": []
+  },
+  {
+    "Id": 221,
+    "Category": "PowerThermal",
+    "Title": "EPP: equilibrado-rendimiento (30)",
+    "ShortDescription": "Valor intermedio de EPP que favorece rendimiento sin llegar al máximo consumo.",
+    "TechnicalSummary": "PERFEPP 36687f9e-e3a5-4dbf-b1dc-15eb381c6863 = 30 (CA/DC).",
+    "RiskLevel": "GREEN",
+    "WarningMessage": "Mutuamente exclusivo con #220 y #222.",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": []
+  },
+  {
+    "Id": 222,
+    "Category": "PowerThermal",
+    "Title": "EPP: valor Windows por defecto (50)",
+    "ShortDescription": "Restaura el valor estándar de EPP (50) para equilibrar consumo y rendimiento.",
+    "TechnicalSummary": "PERFEPP 36687f9e-e3a5-4dbf-b1dc-15eb381c6863 = 50 (CA/DC).",
+    "RiskLevel": "GREEN",
+    "WarningMessage": "Mutuamente exclusivo con #220 y #221.",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": []
+  },
+  {
+    "Id": 223,
+    "Category": "GpuDisplay",
+    "Title": "DWM MMCSS Boost",
+    "ShortDescription": "Registra Desktop Window Manager en MMCSS para que el compositor reciba planificación de tiempo crítico.",
+    "TechnicalSummary": "DwmEnableMMCSS(TRUE) desde dwmapi.dll. NoPing: 'DWM MMCSS Boost'. Requiere administrador.",
+    "RiskLevel": "GREEN",
+    "WarningMessage": "El efecto es de sesión; se revierte llamando a DwmEnableMMCSS(FALSE).",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": []
+  },
+  {
+    "Id": 224,
+    "Category": "NetworkPing",
+    "Title": "Desactivar EEE / Green Ethernet en todos los adaptadores",
+    "ShortDescription": "Desactiva Energy Efficient Ethernet (802.3az) y Green Ethernet en cada adaptador físico para eliminar micro-latencias.",
+    "TechnicalSummary": "AdvancedEEE=0 y GreenEthernet=0 en todas las instancias de SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e972-e325-11ce-bfc1-08002be10318}. NoPing: nic_disable_eee_green_ethernet.",
+    "RiskLevel": "GREEN",
+    "WarningMessage": "Aumenta ligeramente el consumo de red. Solo afecta a adaptadores con esos valores.",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": []
+  },
+  {
+    "Id": 225,
+    "Category": "ServicesStorage",
+    "Title": "Desactivar benchmark WinSAT",
+    "ShortDescription": "Deshabilita la tarea programada que ejecuta benchmarks de disco durante el mantenimiento automático.",
+    "TechnicalSummary": "schtasks /Change /TN \"\\Microsoft\\Windows\\Maintenance\\WinSAT\" /Disable. NoPing: system_disable_winsat.",
+    "RiskLevel": "GREEN",
+    "WarningMessage": "La tarea se reactiva al restaurar el ajuste. Requiere administrador.",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": []
+  },
+  {
+    "Id": 226,
+    "Category": "UiPrivacyQoL",
+    "Title": "Mostrar todos los iconos de la bandeja",
+    "ShortDescription": "Impide que Windows oculte los iconos del área de notificación. NoPing: visual_show_all_tray.",
+    "TechnicalSummary": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\EnableAutoTray = 0 (1 = ocultar). Puede requerir reiniciar Explorer.",
+    "RiskLevel": "GREEN",
+    "WarningMessage": "La bandeja puede llenarse si hay muchos iconos.",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": [
+      {
+        "Hive": "HKCU",
+        "KeyPath": "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer",
+        "ValueName": "EnableAutoTray",
+        "ValueKind": "DWord",
+        "ApplyValue": "0",
+        "RevertValue": "1",
+        "DeleteOnApply": false
+      }
+    ]
+  },
+  {
+    "Id": 227,
+    "Category": "NetworkPing",
+    "Title": "Network Throttling: valor normal (10)",
+    "ShortDescription": "Variante para restaurar el valor estándar de NetworkThrottlingIndex después de aplicar el ajuste #211.",
+    "TechnicalSummary": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile\\NetworkThrottlingIndex = 10.",
+    "RiskLevel": "GREEN",
+    "WarningMessage": "Mutuamente exclusivo con #211.",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": [
+      {
+        "Hive": "HKLM",
+        "KeyPath": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile",
+        "ValueName": "NetworkThrottlingIndex",
+        "ValueKind": "DWord",
+        "ApplyValue": "10",
+        "RevertValue": "4294967295",
+        "DeleteOnApply": false
+      }
+    ]
+  }
+]

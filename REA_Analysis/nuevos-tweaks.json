@@ -1,0 +1,193 @@
+[
+  {
+    "Id": 211,
+    "Category": "NetworkPing",
+    "Title": "Eliminar limitación de ancho de banda multimedia (NetworkThrottlingIndex)",
+    "ShortDescription": "Quita el techo de rendimiento de red que MMCSS aplica a las tareas multimedia. NoPing lo aplica automáticamente al abrir.",
+    "TechnicalSummary": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile\\NetworkThrottlingIndex = 4294967295 (0xFFFFFFFF). Confirmado en vivo: 10 -> 4294967295.",
+    "RiskLevel": "GREEN",
+    "WarningMessage": "Afecta al QoS de red de todo el sistema. Si usas limitación de ancho de banda en el router, revísalo.",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": [
+      {
+        "Hive": "HKLM",
+        "KeyPath": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile",
+        "ValueName": "NetworkThrottlingIndex",
+        "ValueKind": "DWord",
+        "ApplyValue": "4294967295",
+        "RevertValue": "10",
+        "DeleteOnApply": false
+      }
+    ]
+  },
+  {
+    "Id": 212,
+    "Category": "CpuMemoryKernel",
+    "Title": "SystemResponsiveness = 0 (CPU casi total para el juego)",
+    "ShortDescription": "Asigna casi el 100% del tiempo CPU a las tareas de MMCSS en primer plano en lugar de reservar un 20% para servicios.",
+    "TechnicalSummary": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile\\SystemResponsiveness = 0. Confirmado en vivo: 10 -> 0.",
+    "RiskLevel": "YELLOW",
+    "WarningMessage": "Es mutuamente exclusivo con el ajuste #115 (reserva 10%). No aplicar ambos a la vez.",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": [
+      {
+        "Hive": "HKLM",
+        "KeyPath": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile",
+        "ValueName": "SystemResponsiveness",
+        "ValueKind": "DWord",
+        "ApplyValue": "0",
+        "RevertValue": "10",
+        "DeleteOnApply": false
+      }
+    ]
+  },
+  {
+    "Id": 213,
+    "Category": "UiPrivacyQoL",
+    "Title": "Desactivar aplicaciones en segundo plano (global)",
+    "ShortDescription": "Bloquea que las apps de la Store se ejecuten y sincronicen en segundo plano. Tomado del script real de Atlas Toolbox.",
+    "TechnicalSummary": "HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\BackgroundAccessApplications\\GlobalUserDisabled = 1; HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Search\\BackgroundAppGlobalToggle = 0",
+    "RiskLevel": "YELLOW",
+    "WarningMessage": "Las apps pueden dejar de recibir notificaciones en segundo plano hasta que se revierta.",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": [
+      {
+        "Hive": "HKCU",
+        "KeyPath": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\BackgroundAccessApplications",
+        "ValueName": "GlobalUserDisabled",
+        "ValueKind": "DWord",
+        "ApplyValue": "1",
+        "RevertValue": "0",
+        "DeleteOnApply": false
+      },
+      {
+        "Hive": "HKCU",
+        "KeyPath": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Search",
+        "ValueName": "BackgroundAppGlobalToggle",
+        "ValueKind": "DWord",
+        "ApplyValue": "0",
+        "RevertValue": "1",
+        "DeleteOnApply": false
+      }
+    ]
+  },
+  {
+    "Id": 214,
+    "Category": "UiPrivacyQoL",
+    "Title": "Desactivar búsqueda web de Bing en Windows Search",
+    "ShortDescription": "Impide que el cuadro de búsqueda consulte Bing y muestre resultados web. Tomado del script real de Atlas Toolbox.",
+    "TechnicalSummary": "HKCU\\...\\Search\\BingSearchEnabled = 0; HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search\\DisableWebSearch = 1; HKCU\\...\\Search\\SearchboxTaskbarMode = 1",
+    "RiskLevel": "YELLOW",
+    "WarningMessage": "Complementa al ajuste #96 (sugerencias). Puede requerir reiniciar SearchHost.exe o Explorer.",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": [
+      {
+        "Hive": "HKCU",
+        "KeyPath": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Search",
+        "ValueName": "BingSearchEnabled",
+        "ValueKind": "DWord",
+        "ApplyValue": "0",
+        "RevertValue": "1",
+        "DeleteOnApply": false
+      },
+      {
+        "Hive": "HKLM",
+        "KeyPath": "SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search",
+        "ValueName": "DisableWebSearch",
+        "ValueKind": "DWord",
+        "ApplyValue": "1",
+        "RevertValue": "0",
+        "DeleteOnApply": false
+      },
+      {
+        "Hive": "HKCU",
+        "KeyPath": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Search",
+        "ValueName": "SearchboxTaskbarMode",
+        "ValueKind": "DWord",
+        "ApplyValue": "1",
+        "RevertValue": "2",
+        "DeleteOnApply": false
+      }
+    ]
+  },
+  {
+    "Id": 215,
+    "Category": "GpuDisplay",
+    "Title": "Bloqueo completo de FSO y GameDVR (Atlas)",
+    "ShortDescription": "Aplica las claves adicionales del script de Atlas para forzar pantalla completa exclusiva y desactivar grabación: DXGIHonorFSEWindowsCompatible, EFSEFeatureFlags, FSEBehaviorMode, HonorUserFSEBehaviorMode, ActivationType y GameDVR_Enabled.",
+    "TechnicalSummary": "HKCU\\System\\GameConfigStore y HKLM\\SOFTWARE\\Microsoft\\WindowsRuntime\\ActivatableClassId\\...PresenceWriter\\ActivationType = 0. Complementa al ajuste #88.",
+    "RiskLevel": "YELLOW",
+    "WarningMessage": "Complementa (no reemplaza) el ajuste #88. Algunas apps de la Store pueden no abrir hasta revertir. El guion original también elimina Xbox Gaming Overlay.",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": [
+      {
+        "Hive": "HKCU",
+        "KeyPath": "System\\GameConfigStore",
+        "ValueName": "GameDVR_DXGIHonorFSEWindowsCompatible",
+        "ValueKind": "DWord",
+        "ApplyValue": "1",
+        "RevertValue": "0",
+        "DeleteOnApply": false
+      },
+      {
+        "Hive": "HKCU",
+        "KeyPath": "System\\GameConfigStore",
+        "ValueName": "GameDVR_EFSEFeatureFlags",
+        "ValueKind": "DWord",
+        "ApplyValue": "0",
+        "RevertValue": "0",
+        "DeleteOnApply": false
+      },
+      {
+        "Hive": "HKCU",
+        "KeyPath": "System\\GameConfigStore",
+        "ValueName": "GameDVR_FSEBehaviorMode",
+        "ValueKind": "DWord",
+        "ApplyValue": "2",
+        "RevertValue": "2",
+        "DeleteOnApply": false
+      },
+      {
+        "Hive": "HKCU",
+        "KeyPath": "System\\GameConfigStore",
+        "ValueName": "GameDVR_HonorUserFSEBehaviorMode",
+        "ValueKind": "DWord",
+        "ApplyValue": "1",
+        "RevertValue": "0",
+        "DeleteOnApply": false
+      },
+      {
+        "Hive": "HKCU",
+        "KeyPath": "System\\GameConfigStore",
+        "ValueName": "GameDVR_Enabled",
+        "ValueKind": "DWord",
+        "ApplyValue": "0",
+        "RevertValue": "1",
+        "DeleteOnApply": false
+      },
+      {
+        "Hive": "HKLM",
+        "KeyPath": "SOFTWARE\\Microsoft\\WindowsRuntime\\ActivatableClassId\\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter",
+        "ValueName": "ActivationType",
+        "ValueKind": "DWord",
+        "ApplyValue": "0",
+        "RevertValue": "1",
+        "DeleteOnApply": false
+      },
+      {
+        "Hive": "HKLM",
+        "KeyPath": "SOFTWARE\\Microsoft\\PolicyManager\\default\\ApplicationManagement\\AllowGameDVR",
+        "ValueName": "value",
+        "ValueKind": "DWord",
+        "ApplyValue": "0",
+        "RevertValue": "1",
+        "DeleteOnApply": false
+      }
+    ]
+  }
+]

@@ -1,0 +1,55 @@
+[
+  {
+    "Id": 216,
+    "Category": "UiPrivacyQoL",
+    "Title": "Desactivar Aero Peek (vista previa de la barra de tareas)",
+    "ShortDescription": "Impide que Windows muestre una vista previa de la ventana al pasar el ratón por su icono en la barra de tareas.",
+    "TechnicalSummary": "HKCU\\SOFTWARE\\Microsoft\\Windows\\DWM\\EnableAeroPeek = 0; AlwaysHibernateThumbnails = 0. Valores del script de Atlas Toolbox.",
+    "RiskLevel": "GREEN",
+    "WarningMessage": "Puede requerir cerrar sesión para que Explorer aplique el cambio.",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": [
+      {
+        "Hive": "HKCU",
+        "KeyPath": "SOFTWARE\\Microsoft\\Windows\\DWM",
+        "ValueName": "EnableAeroPeek",
+        "ValueKind": "DWord",
+        "ApplyValue": "0",
+        "RevertValue": "1",
+        "DeleteOnApply": false
+      },
+      {
+        "Hive": "HKCU",
+        "KeyPath": "SOFTWARE\\Microsoft\\Windows\\DWM",
+        "ValueName": "AlwaysHibernateThumbnails",
+        "ValueKind": "DWord",
+        "ApplyValue": "0",
+        "RevertValue": "1",
+        "DeleteOnApply": false
+      }
+    ]
+  },
+  {
+    "Id": 217,
+    "Category": "UiPrivacyQoL",
+    "Title": "Ocultar el sufijo \"Shortcut\" en los accesos directos",
+    "ShortDescription": "Elimina el texto \"- Shortcut\" que Windows añade al crear accesos directos. Tomado del script real de Atlas Toolbox.",
+    "TechnicalSummary": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\NamingTemplates\\ShortcutNameTemplate = \"%s.lnk\" (REG_SZ). La restauración elimina el valor, igual que el script original.",
+    "RiskLevel": "GREEN",
+    "WarningMessage": "Solo afecta al nombre de nuevos accesos directos; no renombra los existentes.",
+    "IsImplemented": true,
+    "IsTool": false,
+    "RegistryChanges": [
+      {
+        "Hive": "HKCU",
+        "KeyPath": "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\NamingTemplates",
+        "ValueName": "ShortcutNameTemplate",
+        "ValueKind": "String",
+        "ApplyValue": "%s.lnk",
+        "RevertValue": "",
+        "DeleteOnApply": false
+      }
+    ]
+  }
+]

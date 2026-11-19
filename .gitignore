@@ -1,0 +1,12 @@
+bin/
+obj/
+dist/
+*.exe
+*.dll
+*.pdb
+.vs/
+*.user
+*.log
+.env
+.DS_Store
+Thumbs.db
